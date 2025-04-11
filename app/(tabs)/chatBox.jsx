@@ -8,12 +8,12 @@ import {
   ScrollView,
   SafeAreaView,Image
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TabsContainer from '@/components/TabsContainer';
 import { Ionicons } from '@expo/vector-icons';
 import icons from "@/constants/icons";
 import CardButton from '../../components/cardButton';
-import {getParentAndChildAttributesByUserId } from "@"
+import {getParentAndChildAttributesByUserId } from "@/lib/appwrite"
 
 const ChatBox = () => {
   const [selectedEmotion, setSelectedEmotion] = useState('');
@@ -38,10 +38,66 @@ const ChatBox = () => {
     }
   };
   const [selectedImage, setSelectedImage] = useState(null);
+  const [familyAttributes, setFamilyAttributes] = useState(null);
 
+
+  useEffect(() => {
+    const fetchAttributes = async () => {
+      try {
+        const userId = "67bb554f002db9391265"; // Replace with the actual user ID
+        const familyData = await getParentAndChildAttributesByUserId(userId);
+
+        if (familyData.parent || familyData.children.length > 0) {
+          setFamilyAttributes(familyData);
+          console.log("✅ Parent Data:", familyData.parent);
+          console.log("✅ Children Data:", familyData.children);
+
+          try {
+            // Define the API URL
+            const apiUrl = "https://emopathapi-production-2330.up.railway.app"; // Replace with the actual API URL
+
+            // Prepare the data to send
+            const requestData = {
+              parent: familyData.parent,
+              children: familyData.children,
+            };
+
+            // Send POST request
+            const response = await fetch(`${apiUrl}/first_time/`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json', // Specify the content type
+              },
+              body: JSON.stringify(requestData), // Convert the data to JSON format
+            });
+
+            if (response.ok) {
+              const responseData = await response.json();
+              console.log("✅ Response Data:", responseData);
+            } else {
+              console.error("❌ Failed to send data:", response.status);
+            }
+          } catch (error) {
+            console.error("❌ Error in sending data to the API:", error);
+          }
+        }
+      } catch (error) {
+        console.error("❌ Error in fetching family data:", error);
+      }
+    };
+
+    fetchAttributes();
+  }, []);
+
+
+
+
+  
   const handleImageSelect = (imageKey) => {
     setSelectedImage(imageKey);
   };
+
+
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

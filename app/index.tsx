@@ -52,7 +52,7 @@ export default function  App() {
       <View className="justify-center px-3  mt-10 mb-20">
         <CustomButton
           title="Ready to start" // This sets the button's label to "Continue with Email".
-          handlePress={() => router.push("/sign-up")} //This is an empty function that will handle the button press event.
+          handlePress={() => router.push("/sign-up")} //This is an etmpty function that will handle the button press event.
           containerStyles="w-full mt-7 font-psemibold bg-secondary-200"
           textStyles="text-white" isLoading={undefined} icon={undefined}/> 
       </View>

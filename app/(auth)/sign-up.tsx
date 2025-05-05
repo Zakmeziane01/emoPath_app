@@ -39,7 +39,7 @@ const SignUp = () => {
         setUser(result); // Set user details in the global context
         setIsLogged(true); // Set the logged-in state to true
         refetch();
-        router.replace("/info");
+        router.replace("/chatBox");
       }
     } catch (error: any) {
         if (error.message) {

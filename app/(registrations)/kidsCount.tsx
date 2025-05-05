@@ -90,7 +90,7 @@ const KidsCount = () => {
   };
 
   return (
-    <SafeAreaView className='mt-5 '>
+    <SafeAreaView className=' bg-white h-full '>
       <Text className='text-2xl font-semibold mb-3 mt-10 mx-10'>Select Your Avatar</Text>
       <View className='flex-row flex-wrap justify-center bg-primary-200 mt-5 p-4 rounded-tl-2xl rounded-br-2xl mx-4'>
   {avatars.map((avatar, index) => (
